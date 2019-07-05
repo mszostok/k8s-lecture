@@ -15,18 +15,28 @@ COPY ./cmd/ ${BASE_APP_DIR}/cmd/
 # Build app
 #
 
-RUN cd cmd/meme && env CGO_ENABLED=0 GOARCH=amd64 GOOS=linux go build -v -o srv . && mv ./srv /srv
+RUN CGO_ENABLED=0 GOOS=linux go build -v -o main ./cmd/meme/main.go
+RUN mkdir /app && mv ./main /app/main
+
 
 FROM alpine:3.8
+LABEL source = git@github.com:kyma-project/kyma.git
+WORKDIR /app
+
+#
+# Install certificates
+#
+
+RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
 
 #
 # Copy binary
 #
 
-COPY --from=builder /srv /srv
+COPY --from=builder /app /app
 
 #
 # Run app
 #
 
-CMD ["/srv"]
+CMD ["/app/main"]
