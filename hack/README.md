@@ -1,0 +1,1 @@
+run following scripts from the root

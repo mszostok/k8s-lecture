@@ -1,0 +1,19 @@
+FROM golang:1.8
+
+ARG DOCK_PKG_DIR=/go/src/stash.hybris.com/gopher/sf-playground/example-services
+ARG HTTP_PORT=8080
+
+RUN mkdir -p $DOCK_PKG_DIR
+
+COPY ./ $DOCK_PKG_DIR/
+WORKDIR $DOCK_PKG_DIR
+
+RUN mkdir -p /srv
+RUN cd cmd/quote && go build -v -o main . \
+    && mv ./main /srv/
+
+ENV PORT ${HTTP_PORT}
+
+ENTRYPOINT ["/srv/main"]
+
+EXPOSE ${HTTP_PORT}
