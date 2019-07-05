@@ -1,19 +1,32 @@
-FROM golang:1.8
+FROM golang:1.11.4-alpine3.8 as builder
 
-ARG DOCK_PKG_DIR=/go/src/stash.hybris.com/gopher/sf-playground/example-services
-ARG HTTP_PORT=8080
+ENV BASE_APP_DIR /go/src/github.com/mszostok/k8s-lecture
+WORKDIR ${BASE_APP_DIR}
 
-RUN mkdir -p $DOCK_PKG_DIR
+#
+# Copy files
+#
 
-COPY ./ $DOCK_PKG_DIR/
-WORKDIR $DOCK_PKG_DIR
+COPY ./vendor/ ${BASE_APP_DIR}/vendor/
+COPY ./internal/ ${BASE_APP_DIR}/internal/
+COPY ./cmd/ ${BASE_APP_DIR}/cmd/
 
-RUN mkdir -p /srv
-RUN cd cmd/meme && go build -v -o main . \
-    && mv ./main /srv/
+#
+# Build app
+#
 
-ENV PORT ${HTTP_PORT}
+RUN cd cmd/meme && env CGO_ENABLED=0 GOARCH=amd64 GOOS=linux go build -v -o srv . && mv ./srv /srv
 
-ENTRYPOINT ["/srv/main"]
+FROM alpine:3.8
 
-EXPOSE ${HTTP_PORT}
+#
+# Copy binary
+#
+
+COPY --from=builder /srv /srv
+
+#
+# Run app
+#
+
+CMD ["/srv"]

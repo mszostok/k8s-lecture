@@ -7,7 +7,10 @@ Example services contains following services:
 ### Simplest way
 ```bash
 env GOOS=linux GOARCH=amd64 go build -o quote.bin ./cmd/quote/main.go
+
 docker build -t quote .
+
+docker build -t meme -f Dockerfile-meme .
 ```
 
 TBD
