@@ -2,10 +2,8 @@ package generator
 
 import (
 	"fmt"
-	"github.com/fogleman/gg"
-	"github.com/golang/freetype/truetype"
+	"github.com/jpoz/gomeme"
 	"github.com/pkg/errors"
-	"golang.org/x/image/font/gofont/gobold"
 	"image"
 	"io"
 	"math/rand"
@@ -41,19 +39,16 @@ func (g *MemGen) Get() (io.Reader, error) {
 		return nil, errors.Wrapf(err, "while decoding image [%s]", imgPath)
 	}
 
-	imgCtx := gg.NewContextForImage(inputImage)
-	imgCtx.SetHexColor("#ff0") // YELLOW
-	font, err := truetype.Parse(gobold.TTF)
-	if err != nil {
-		return nil, errors.Wrap(err, "while parsing font")
+	config := gomeme.NewConfig()
+	config.BottomText = quote
+	meme := &gomeme.Meme{
+		Config:   config,
+		Memeable: gomeme.JPEG{Image: inputImage},
 	}
-	fontFace := truetype.NewFace(font, &truetype.Options{Size: 16})
-	imgCtx.SetFontFace(fontFace)
-	imgCtx.DrawStringAnchored(quote, float64(inputImage.Bounds().Max.X/2.0), float64(inputImage.Bounds().Max.Y)*0.9, 0.5, 0.5)
 
 	pReader, pWriter := io.Pipe()
 	go func() {
-		err := imgCtx.EncodePNG(pWriter)
+		err := meme.Write(pWriter)
 		pWriter.CloseWithError(err)
 	}()
 	return pReader, nil

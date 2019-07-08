@@ -4,19 +4,18 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/gorilla/mux"
-	"github.com/mszostok/k8s-lecture/cmd/quote/internal/generator"
 	"net/http"
 )
 
 type Handler struct {
-	quoteProvider func() string
+	quoteProvider quoteProvider
 	jsonEncoder   JSONEncoder
 	errorReporter ErrorReporter
 }
 
-func NewHandler(reporter ErrorReporter) *Handler {
+func NewHandler(reporter ErrorReporter, quoteProvider quoteProvider) *Handler {
 	return &Handler{
-		quoteProvider: generator.Get,
+		quoteProvider: quoteProvider,
 		jsonEncoder:   &jsonEncoder{},
 		errorReporter: reporter,
 	}
@@ -27,7 +26,7 @@ func AddAPIRoutes(rtr *mux.Router, h *Handler) {
 }
 
 func (h *Handler) GetRandomQuoteHandler(rw http.ResponseWriter, req *http.Request) {
-	dto := QuoteDTO{Quote: h.quoteProvider()}
+	dto := QuoteDTO{Quote: h.quoteProvider.Get()}
 	if err := h.jsonEncoder.Encode(rw, dto); err != nil {
 		h.respondWithInternalServerError(req.Context(), rw, err)
 		return
@@ -59,4 +58,8 @@ func (e *jsonEncoder) Encode(rw http.ResponseWriter, v interface{}) error {
 // ErrorReporter defines interface for reporting errors
 type ErrorReporter interface {
 	Report(context.Context, error)
+}
+
+type quoteProvider interface {
+	Get() string
 }

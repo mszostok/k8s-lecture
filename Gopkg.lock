@@ -2,80 +2,111 @@
 
 
 [[projects]]
-  name = "github.com/fogleman/gg"
-  packages = ["."]
-  revision = "6166aa3c1afaee416f384645a81636267aee6d25"
-  version = "v1.0.0"
-
-[[projects]]
   branch = "master"
+  digest = "1:62c57507df491b657e9ae2645f30958d9964c8eeb380600469eedc951ebb3a0e"
   name = "github.com/golang/freetype"
   packages = [
     "raster",
-    "truetype"
+    "truetype",
   ]
+  pruneopts = "UT"
   revision = "e2365dfdc4a05e4b8299a783240d4a7d5a65d4e4"
 
 [[projects]]
+  digest = "1:160eabf7a69910fd74f29c692718bc2437c1c1c7d4c9dea9712357752a70e5df"
   name = "github.com/gorilla/context"
   packages = ["."]
+  pruneopts = "UT"
   revision = "1ea25387ff6f684839d82767c1733ff4d4d15d0a"
   version = "v1.1"
 
 [[projects]]
+  digest = "1:88aa9e326e2bd6045a46e00a922954b3e1a9ac5787109f49ac85366df370e1e5"
   name = "github.com/gorilla/mux"
   packages = ["."]
+  pruneopts = "UT"
   revision = "53c1911da2b537f792e7cafcb446b05ffe33b996"
   version = "v1.6.1"
 
 [[projects]]
+  branch = "master"
+  digest = "1:e56a371db0e67f564d6f84bf734b778315b6ad3aee860698ac31b1d5f9fdcc4c"
+  name = "github.com/jpoz/dilation"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "ca94e2732a4751dfec98d784bb4c8b5bd7056dc1"
+
+[[projects]]
+  branch = "master"
+  digest = "1:5c6008891408787bccad057e08ea34e369f6b24cec03daffc6c68bd1284c363e"
+  name = "github.com/jpoz/gomeme"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "d0804994c9b46931ab7dac4bad384513b51f3edd"
+
+[[projects]]
+  digest = "1:40e195917a951a8bf867cd05de2a46aaf1806c50cf92eebf4c16f78cd196f747"
   name = "github.com/pkg/errors"
   packages = ["."]
+  pruneopts = "UT"
   revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
   version = "v0.8.0"
 
 [[projects]]
+  digest = "1:9e9193aa51197513b3abcb108970d831fbcf40ef96aa845c4f03276e1fa316d2"
   name = "github.com/sirupsen/logrus"
   packages = ["."]
+  pruneopts = "UT"
   revision = "c155da19408a8799da419ed3eeb0cb5db0ad5dbc"
   version = "v1.0.5"
 
 [[projects]]
+  digest = "1:3517175fa3b999ab2f10db5d5a580765924c694d7361514784902511e3e4051d"
   name = "github.com/vrischmann/envconfig"
   packages = ["."]
+  pruneopts = "UT"
   revision = "98b0b9a570bdd3eb00e3e6eeb15548e7f982bfd3"
   version = "1.0.0"
 
 [[projects]]
   branch = "master"
+  digest = "1:3f3a05ae0b95893d90b9b3b5afdb79a9b3d96e4e36e099d841ae602e4aca0da8"
   name = "golang.org/x/crypto"
   packages = ["ssh/terminal"]
+  pruneopts = "UT"
   revision = "12892e8c234f4fe6f6803f052061de9057903bb2"
 
 [[projects]]
   branch = "master"
+  digest = "1:9ad20acf690cdd6d8e6111a44f6da281ed8992e03119163fe7f10bf261a79cec"
   name = "golang.org/x/image"
   packages = [
     "font",
-    "font/basicfont",
-    "font/gofont/gobold",
-    "font/plan9font",
-    "math/fixed"
+    "math/fixed",
   ]
+  pruneopts = "UT"
   revision = "f3a9b89b59def9194717c1d0bd4c0d08fa1afa7b"
 
 [[projects]]
   branch = "master"
+  digest = "1:0cc09bfe0321a651b68c587f94585b76b0b6cf58db1f2701d6062bb91ac442f8"
   name = "golang.org/x/sys"
   packages = [
     "unix",
-    "windows"
+    "windows",
   ]
+  pruneopts = "UT"
   revision = "378d26f46672a356c46195c28f61bdb4c0a781dd"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "8ec28c1b4c7d7f8ce1c4a116b95a5f3728879f7abdc2bfe81acccd56288df11a"
+  input-imports = [
+    "github.com/gorilla/mux",
+    "github.com/jpoz/gomeme",
+    "github.com/pkg/errors",
+    "github.com/sirupsen/logrus",
+    "github.com/vrischmann/envconfig",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1

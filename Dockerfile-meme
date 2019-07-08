@@ -20,7 +20,6 @@ RUN mkdir /app && mv ./main /app/main
 
 
 FROM alpine:3.8
-LABEL source = git@github.com:kyma-project/kyma.git
 WORKDIR /app
 
 #
@@ -34,6 +33,12 @@ RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
 #
 
 COPY --from=builder /app /app
+
+#
+# Copy images
+#
+
+COPY data /app/cmd/meme/resources
 
 #
 # Run app

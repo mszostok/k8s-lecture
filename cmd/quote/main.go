@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gorilla/mux"
+	"github.com/mszostok/k8s-lecture/cmd/quote/internal/generator"
 	"github.com/mszostok/k8s-lecture/cmd/quote/internal/web"
 	"github.com/mszostok/k8s-lecture/internal/httperr"
 	"github.com/sirupsen/logrus"
@@ -17,6 +18,7 @@ type Config struct {
 	// Logger holds configuration for logger
 
 	HTTPPort int `envconfig:"default=8080"`
+	Quotes []string `envconfig:"optional"`
 }
 
 func main() {
@@ -26,13 +28,16 @@ func main() {
 	}
 
 	log := logrus.New().WithField("service", "quote")
-	h := web.NewHandler(httperr.NewLogrusErrorReporter(log))
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/status", func(rw http.ResponseWriter, req *http.Request) {
 		rw.WriteHeader(http.StatusOK)
 	})
-	router.HandleFunc("/quote", web.NewHandler(httperr.NewLogrusErrorReporter(log)).GetRandomQuoteHandler)
-	web.AddAPIRoutes(router, h)
+	quoteProvider := &generator.QuoteProvider{
+		Quotes: cfg.Quotes,
+	}
+	handlers := web.NewHandler(httperr.NewLogrusErrorReporter(log), quoteProvider)
+	router.HandleFunc("/quote", handlers.GetRandomQuoteHandler)
+	web.AddAPIRoutes(router, handlers)
 
 	httpServer := http.Server{Addr: ":8080", Handler: router}
 

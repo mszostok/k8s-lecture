@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-var quotes = []string{
+var defaultQuotes = []string{
 	"don't put your hand in boiling water",
 	"do not breathe under the water",
 	"breathing will help you live",
@@ -25,6 +25,13 @@ func init() {
 	randomSource = rand.New(rand.NewSource(int64(time.Now().Nanosecond())))
 }
 
-func Get() string {
-	return quotes[randomSource.Intn(len(quotes))]
+type QuoteProvider struct {
+	Quotes []string
+}
+
+func (q *QuoteProvider) Get() string {
+	if q.Quotes != nil {
+		return q.Quotes[randomSource.Intn(len(q.Quotes))]
+	}
+	return defaultQuotes[randomSource.Intn(len(defaultQuotes))]
 }
