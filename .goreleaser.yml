@@ -1,0 +1,33 @@
+builds:
+- env:
+  - CGO_ENABLED=0
+  # Path to main.go file or main package.
+  # Default is `.`.
+  main: ./cmd/meme/main.go
+  goos:
+  - linux
+  - darwin
+  - windows
+  goarch:
+  - amd64
+  - 386
+archive:
+  replacements:
+    darwin: Darwin
+    linux: Linux
+    windows: Windows
+    386: i386
+    amd64: x86_64
+  format_overrides:
+  - goos: windows
+    format: zip
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Tag }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^docs:'
+    - '^test:'
