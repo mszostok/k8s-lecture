@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: meme-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: meme.sample.com
+    http:
+      paths:
+      - path: /meme
+        backend:
+          serviceName: meme
+          servicePort: 80

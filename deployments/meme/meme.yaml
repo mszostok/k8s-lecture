@@ -19,7 +19,11 @@ spec:
             - containerPort: 9090
           env:
             - name: QUOTE_URL
-              value: "http://quote/"
+              value: "2341039a0sdfa"
+              name: MYSQL_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: "pass"
 ---
 kind: Service
 apiVersion: v1

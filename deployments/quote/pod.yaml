@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: quote
+spec:
+  containers:
+    - name: svr
+      image: quote:1.0.0
+      ports:
+        - containerPort: 8080
