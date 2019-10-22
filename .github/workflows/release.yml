@@ -3,8 +3,7 @@ name: goreleaser
 on:
   push:
     branches:
-      - refs/tags/*
-
+      - refs/tags/@mszostok/*
 jobs:
   goreleaser:
     runs-on: ubuntu-latest
